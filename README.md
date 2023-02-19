@@ -1,4 +1,4 @@
-# Intro-To-Backend-Architectures
+# Intro To Backend Architectures
 
 ## Types of Backend Architectures
 - Monolithic Architecture
@@ -73,6 +73,10 @@
 - Applications with complex operations with multiple participants services
 - Participating services are build using different platforms or programming languages
 
+### When not to use?
+- Initial Investment required to set up SOA infrastructure (like ESBs, Middleware etc.) is high
+- Application has complex service management (or) service interactions have more communication overhead
+
 ## Microservice Architecture (MSA)
 - Microservices is an architectural approach where apps are broken down into their smallest components, independent of each other
 - Each of these independent components, or processes, is a microservice
@@ -135,9 +139,12 @@
 - CI/CD
 
 ### When to use?
-- Needs a loosely coupled system and individual components needs to be scaled independent of others
-- Better for smaller and web-based applications
-- Faster time to market
+- Build a loosely coupled system by re-platforming a legacy/monolith application to meet the demands of modern business
+- For supporting client-side web apps when data could be coming from multiple channels (**Aggregator Pattern**)
+- Build reusable components (authentication, notification services etc.) across multiple channels
+- Individual (or a group) of components needs to be scaled rather than the whole application
+- Build highly agile apps with faster time to market or innovation pilots etc.
+- Build polyglot, multilingual, and distributed cloud apps
 
 ## How are SOA and Microservice architectures different from each other?
 | Area                | SOA                                                    | Microservices                                                                               |
