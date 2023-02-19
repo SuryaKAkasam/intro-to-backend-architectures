@@ -251,4 +251,24 @@ Service A ←--→ ╎ Queue ╎ ←--→ Service B
 ```
 
 ## API Gateway
-- TBD
+- Is a component that sits between the clients and a collection of backend microservices
+- Responsible for request routing, protocol translation etc.
+- Can often handle a request by invoking multiple microservices and aggregating the results
+- It can also be used for rate limiting (throttling) and authentication
+- A monitoring tool analyzing how the APIs are being used can be plugged into the gateway
+```
+                                        REST API
+                                  ┌-------------------┐
+                               ┌-→╎ Shipping Service  ╎
+                               ╎  └-------------------┘ 
+                               ╎ 
+                               ╎        REST API
+┌--------┐    ┌-------------┐  ╎  ┌-------------------┐
+╎ CLIENT ╎←--→╎ API Gateway ╎←-┼-→╎ Order Service     ╎  
+└--------┘    └-------------┘  ╎  └-------------------┘ 
+                               ╎ 
+                               ╎        REST API
+                               ╎  ┌-------------------┐
+                               └-→╎ Inventory Service ╎
+                                  └-------------------┘ 
+```
