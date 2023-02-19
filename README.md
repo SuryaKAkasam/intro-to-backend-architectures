@@ -3,7 +3,7 @@
 ## Types of Backend Architectures
 - Monolithic Architecture
 - Service Oriented Architecture (SOA)
-- Microservice Architecture
+- Microservice Architecture (MSA)
 
 ## Monolithic Architectures
 ### Characteristics
