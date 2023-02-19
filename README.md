@@ -73,7 +73,7 @@
 - Applications with complex operations with multiple participants services
 - Participating services are build using different platforms or programming languages
 
-## Microservice Architecture
+## Microservice Architecture (MSA)
 - Microservices is an architectural approach where apps are broken down into their smallest components, independent of each other
 - Each of these independent components, or processes, is a microservice
   - **Layer #1** FrontEnd
@@ -154,4 +154,101 @@
 | Service Granularity | Larger, more modular services                          | Fine-grained services                                                                       |
 
 ## Microservices Design Patterns
+### Aggregator Pattern
+- The Client needs details (smaller details) from each of the services A, B & C
+- The Aggregator component calls individual services, consolidates the results and sends the result back to the Client
+```
+Load Balancer  ┌→ Service A ←→ Cache ←→ DB
+       ╎       ╎
+       ↓       ╎
+   Aggregator ←┼→ Service B ←→ Cache ←→ DB
+               ╎
+               ╎
+               └→ Service C ←→ Cache ←→ DB
+```
+
+### Proxy Pattern
+- The Client needs details from a specific service A, B or C
+- The Proxy component calls appropriate service and sends the desired result back to the Client
+- Here, the Proxy service acts as an interface and provides an extra layer of security for all the API Calls
+```
+Load Balancer  ┌→ Service A ←→ Cache ←→ DB
+       ╎       ╎
+       ↓       ╎
+     Proxy    ←┼→ Service B ←→ Cache ←→ DB
+               ╎
+               ╎
+               └→ Service C ←→ Cache ←→ DB
+```
+
+### Chained Pattern
+- This is one of the composition patterns where client requests are sent directly to the services
+- All the services will be chained up in a manner such that the output of one service will be the input of the next one
+- Here, Service A receives user requests, and other services output are chained
+```
+Load Balancer --→ Service A ←→ Cache ←→ DB
+                     ↑
+                     ↓
+                  Service B ←→ Cache ←→ DB
+                     ↑
+                     ↓
+                  Service C ←→ Cache ←→ DB
+```
+
+### Shared Data Pattern
+- In this pattern, to reduce data duplication/inconsistency issues, each microservice can have shared data between them
+- In this example, Services B and C share the same database
+```
+Service A ←→ Cache ←→ DB
+    ↑
+    ╎
+    ↓
+┌-----------------------------┐
+╎   Service B ←┐              ╎
+╎      ↑       ╎              ╎
+╎      ╎       ├→ Cache ←→ DB ╎ 
+╎      ↓       ╎              ╎  
+╎   Service C ←┘              ╎
+└-----------------------------┘
+```
+
+### Asynchronous Messaging Pattern
+- In this pattern, Asynchronous Messaging is used to service the requests concurrently
+- In this example, Service A and Service B can communicate with each other concurrently
+- The request from the client can be directly sent to Services A and B concurrently
+- RabbitMA or Kafka are a few examples of message queues
+```
+               ┌-------┐
+Service A ←--→ ╎ Queue ╎ ←--→ Service B
+    ↑          └-------┘          ↑    
+    ↓                             ↓
+  Cache                         Cache
+    ↑                             ↑
+    ↓                             ↓
+ Database                      Database
+```
+
+### Anti-corruption Layer Pattern
+- In this pattern, the anti-corruption layer is introduced between systems that transforms communications between the two systems
+- This allows other systems to remain unaffected irrespective of its design, communication, technological approach, etc.
+- Here, Subsystem A can communicate with Subsystem C irrespective of its design, technological approach, etc.
+```
+     LEGACY SYSTEMS
+┌-------------------------┐  ┌------------┐
+╎ Service A ←-------------┼-→╎            ╎    MODERN API  
+╎     ↑                   ╎  ╎            ╎   ┌-----------┐
+╎     ↓                   ╎  ╎            ╎   ╎ Service C ╎
+╎   Cache                 ╎  ╎            ╎   ╎     ↑     ╎
+╎     ↑                   ╎  ╎   Anti     ╎   ╎     ↓     ╎
+╎     ↓       Service B ←-┼-→╎ Corruption ╎←--┼-→ Cache   ╎
+╎  Database       ↑       ╎  ╎   Layer    ╎   ╎     ↑     ╎
+╎                 ↓       ╎  ╎            ╎   ╎     ↓     ╎
+╎               Cache     ╎  ╎            ╎   ╎  Database ╎
+╎                 ↑       ╎  ╎            ╎   └-----------┘         
+╎                 ↓       ╎  ╎            ╎
+╎              Database   ╎  ╎            ╎
+└-------------------------┘  └------------┘
+```
+
+## API Gateway
 - TBD
