@@ -1,4 +1,4 @@
-# Upgrad-Microservices-Intro-To-Backend-Architectures
+# Intro-To-Backend-Architectures
 
 ## Types of Backend Architectures
 - Monolithic Architecture
